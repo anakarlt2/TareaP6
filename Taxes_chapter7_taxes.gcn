@@ -21,7 +21,7 @@ block CONSUMER
 {
     definitions
     {
-        u[] = gamma*log(C[])+(1-gamma)*log(1 - L_s[]);
+        u[] = gamma * log(C[] * D[]) + (1 - gamma) * log(1 - L_s[]);
     };
     controls
     {
@@ -107,5 +107,24 @@ block EXOG
     calibration
     {
         rho = 0.95;
+    };
+};
+
+block CONSUMPTION_SHOCK
+{
+    definitions
+    {
+        logD[] = (1 - rho_D) * log(D_bar) + rho_D * log(D[-1]) + epsilon_D[];
+        D[] = exp(logD[]);
+    };
+    shocks
+    {
+        epsilon_D[];
+    };
+    calibration
+    {
+        rho_D = 0.90;
+        D_bar = 1.0;
+        std(epsilon_D) = 0.010;
     };
 };
