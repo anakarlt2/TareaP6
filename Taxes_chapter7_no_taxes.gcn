@@ -1,8 +1,7 @@
 # ############################################################################
-# Taxes Model. Chapter 7, Torres (2015)
-# Written by Dr. Edmundo Molina 
+# Taxes Model. Chapter 7, Torres (2015) - NO TAXES version with preference shock
+# Modified by Ana Karla, 2025
 # ############################################################################
-
 
 options
 {
@@ -19,7 +18,7 @@ block CONSUMER
 {
     definitions
     {
-        u[] = gamma * log(C[] * D[]) + (1 - gamma) * log(1 - L_s[]);
+        u[] = gamma*log(D[] * C[]) + (1-gamma)*log(1 - L_s[]);
     };
     controls
     {
@@ -31,8 +30,8 @@ block CONSUMER
     };
     constraints
     {
-        I[] + (1+tau_c) * C[] = (1-tau_k) * r[] * K_s[-1] + (1-tau_l) * W[] * L_s[] + pi[] + GT[] : lambda_c[];
-        K_s[] = I[] + (1 - delta) * K_s[-1];
+        I[] + C[] = r[] * K_s[-1] + W[] * L_s[] + pi[] : lambda_c[];
+        K_s[] =  I[] + (1 - delta) * K_s[-1];
     };
     calibration
     {
@@ -63,24 +62,6 @@ block FIRM
     };
 };
 
-block GOVERNMENT
-{
-    identities
-    {
-        GT[] = G_inc[];
-        G_inc[] = T_c[] + T_l[] + T_k[];
-        T_c[] = tau_c * C[];
-        T_l[] = tau_l * W[] * L_s[];
-        T_k[] = tau_k * (r[] - delta) * K_s[-1];
-    };
-    calibration
-    {
-        tau_l = 0.0;
-        tau_c = 0.0;
-        tau_k = 0.0;
-    };
-};
-
 block EQUILIBRIUM
 {
     identities
@@ -92,22 +73,32 @@ block EQUILIBRIUM
 
 block EXOG
 {
-    definitions
+    identities
     {
         A[] = exp(rho * log(A[-1]) + epsilon_A[]);
-        logD[] = (1 - rho_D) * log(D_bar) + rho_D * log(D[-1]) + epsilon_D[];
-        D[] = exp(logD[]);
     };
     shocks
     {
         epsilon_A[];
-        epsilon_D[];
     };
     calibration
     {
         rho = 0.95;
-        rho_D = 0.90;
-        D_bar = 1.0;
-        std(epsilon_D) = 0.010;
+    };
+};
+
+block EXOG_CONSUMPTION
+{
+    identities
+    {
+        D[] = exp(rho_D * log(D[-1]) + epsilon_D[]);
+    };
+    shocks
+    {
+        epsilon_D[];
+    };
+    calibration
+    {
+        rho_D = 0.99;
     };
 };
