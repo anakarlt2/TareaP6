@@ -96,35 +96,23 @@ block EQUILIBRIUM
 
 block EXOG
 {
-    identities
-    {
-        A[] = exp(rho * log(A[-1]) + epsilon_A[]);
-    };
-    shocks
-    {
-        epsilon_A[];
-    };
-    calibration
-    {
-        rho = 0.95;
-    };
-};
-
-block CONSUMPTION_SHOCK
-{
     definitions
     {
+        A[] = exp(rho * log(A[-1]) + epsilon_A[]);
         logD[] = (1 - rho_D) * log(D_bar) + rho_D * log(D[-1]) + epsilon_D[];
         D[] = exp(logD[]);
     };
     shocks
     {
+        epsilon_A[];
         epsilon_D[];
     };
     calibration
     {
+        rho = 0.95;
         rho_D = 0.90;
         D_bar = 1.0;
         std(epsilon_D) = 0.010;
     };
 };
+
