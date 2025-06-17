@@ -1,6 +1,6 @@
 ############################################################################
 # Taxes Model. Chapter 7, Torres (2015)
-# Written by Dr. Edmundo Molina 
+# Modificado por Ana Karla, 2025
 ############################################################################
 
 options
@@ -18,7 +18,7 @@ block CONSUMER
 {
     definitions
     {
-        u[] = gamma*log(D[] * C[]) + (1-gamma)*log(1 - L_s[]);
+        u[] = gamma * log(D[] * C[]) + (1 - gamma) * log(1 - L_s[]);
     };
     controls
     {
@@ -30,7 +30,7 @@ block CONSUMER
     };
     constraints
     {
-        I[] + (1+tau_c) * C[] = (1-tau_k) * r[] * K_s[-1] + (1-tau_l) * W[] * L_s[] + pi[] + GT[] : lambda_c[];
+        I[] + (1 + tau_c) * C[] = (1 - tau_k) * r[] * K_s[-1] + (1 - tau_l) * W[] * L_s[] + pi[] + GT[] : lambda_c[];
         K_s[] = I[] + (1 - delta) * K_s[-1];
     };
     calibration
@@ -100,10 +100,10 @@ block EXOG
         epsilon_A[];
     };
     calibration
-{
-    rho = 0.95;
-    stddev(epsilon_A) = 0.01;
-};
+    {
+        rho = 0.95;
+        stddev epsilon_A = 0.01;
+    };
 };
 
 block EXOG_CONSUMPTION
@@ -119,7 +119,6 @@ block EXOG_CONSUMPTION
     calibration
     {
         rho_D = 0.99;
-        stddev(epsilon_D) = 0.01;
+        stddev epsilon_D = 0.01;
     };
 };
-
