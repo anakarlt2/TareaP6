@@ -10,12 +10,10 @@ options
     output LaTeX = TRUE;
 };
 
-
 tryreduce
 {
     K_d[], L_d[];
 };
-
 
 block CONSUMER
 {
@@ -33,8 +31,8 @@ block CONSUMER
     };
     constraints
     {
-        I[] + (1+tau_c) * C[] = (1-tau_k) * r[] * K_s[-1] + (1-tau_l) * W[] * L_s[]+ pi[]+ GT[] : lambda_c[] ;
-        K_s[] =  I[] + (1 - delta) * K_s[-1] ;
+        I[] + (1+tau_c) * C[] = (1-tau_k) * r[] * K_s[-1] + (1-tau_l) * W[] * L_s[] + pi[] + GT[] : lambda_c[];
+        K_s[] = I[] + (1 - delta) * K_s[-1];
     };
     calibration
     {
@@ -43,7 +41,6 @@ block CONSUMER
         gamma = 0.40;
     };
 };
-
 
 block FIRM
 {
@@ -70,11 +67,11 @@ block GOVERNMENT
 {
     identities
     {
-        GT[] = G_inc[] ;
+        GT[] = G_inc[];
         G_inc[] = T_c[] + T_l[] + T_k[];
         T_c[] = tau_c * C[];
-        T_l[] = tau_l  * W[] * L_s[] ;
-        T_k[] = tau_k * (r[] - delta ) * K_s[-1];
+        T_l[] = tau_l * W[] * L_s[];
+        T_k[] = tau_k * (r[] - delta) * K_s[-1];
     };
     calibration
     {
@@ -92,7 +89,6 @@ block EQUILIBRIUM
         L_d[] = L_s[];
     };
 };
-
 
 block EXOG
 {
@@ -115,4 +111,3 @@ block EXOG
         std(epsilon_D) = 0.010;
     };
 };
-
